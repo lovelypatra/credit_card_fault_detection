@@ -22,7 +22,7 @@ class DataValidation:
             self.data_ingestion_artifact=data_ingestion_artifact
             self.validation_error=dict()
         except Exception as e:
-            raise SensorException(e, sys)
+            raise creditException(e, sys)
 
     
 
@@ -51,7 +51,7 @@ class DataValidation:
                 return None
             return df
         except Exception as e:
-            raise SensorException(e, sys)
+            raise creditException(e, sys)
 
     def is_required_columns_exists(self,base_df:pd.DataFrame,current_df:pd.DataFrame,report_key_name:str)->bool:
         try:
@@ -70,7 +70,7 @@ class DataValidation:
                 return False
             return True
         except Exception as e:
-            raise SensorException(e, sys)
+            raise creditException(e, sys)
 
     def data_drift(self,base_df:pd.DataFrame,current_df:pd.DataFrame,report_key_name:str):
         try:
@@ -101,7 +101,7 @@ class DataValidation:
 
             self.validation_error[report_key_name]=drift_report
         except Exception as e:
-            raise SensorException(e, sys)
+            raise creditException(e, sys)
 
     def initiate_data_validation(self)->artifact_entity.DataValidationArtifact:
         try:
@@ -124,9 +124,9 @@ class DataValidation:
             test_df = self.drop_missing_values_columns(df=test_df,report_key_name="missing_values_within_test_dataset")
             
             exclude_columns = [TARGET_COLUMN]
-            base_df = utils.convert_columns_float(df=base_df, exclude_columns=exclude_columns)
-            train_df = utils.convert_columns_float(df=train_df, exclude_columns=exclude_columns)
-            test_df = utils.convert_columns_float(df=test_df, exclude_columns=exclude_columns)
+            base_df = utils.convert_column_names(df=base_df)
+            train_df = utils.convert_column_names(df=train_df)
+            test_df = utils.convert_column_names(df=test_df)
 
 
             logging.info(f"Is all required columns present in train df")
@@ -150,4 +150,4 @@ class DataValidation:
             logging.info(f"Data validation artifact: {data_validation_artifact}")
             return data_validation_artifact
         except Exception as e:
-            raise SensorException(e, sys)
+            raise creditException(e, sys)
