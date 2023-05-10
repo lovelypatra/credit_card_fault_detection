@@ -123,7 +123,7 @@ class DataValidation:
             logging.info(f"Drop null values colums from test df")
             test_df = self.drop_missing_values_columns(df=test_df,report_key_name="missing_values_within_test_dataset")
             
-            exclude_columns = [TARGET_COLUMN]
+            logging.info(f"coverting column names")
             base_df = utils.convert_column_names(df=base_df)
             train_df = utils.convert_column_names(df=train_df)
             test_df = utils.convert_column_names(df=test_df)
